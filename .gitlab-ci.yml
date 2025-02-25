@@ -1,0 +1,48 @@
+stages:
+  - docker-build
+  - lint
+  - unit-test
+  - report
+  - deploy
+
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+    - target
+    - Cargo.lock
+    - coverage
+
+variables:
+  CARGO_HOME: $CI_PROJECT_DIR/cargo
+  APT_CACHE_DIR: $CI_PROJECT_DIR/apt
+
+before_script:
+  - cargo --version
+  - rustc --version
+
+
+docker-image-build:
+  stage: docker-build
+  image: docker:28.0.0
+  services:
+    - docker:28.0.0-dind
+  variables:
+    IMAGE_TAG: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
+  script:
+    - echo "$CI_REGISTRY_PASSWORD" | docker login $CI_REGISTRY -u $CI_REGISTRY_USER --password-stdin
+    - docker build -t $IMAGE_TAG .
+    - docker push $IMAGE_TAG
+
+fmt:
+  stage: lint
+  image: rust:latest
+  script:
+    - rustup component add rustfmt
+    - cargo fmt --check
+
+test-default:
+  stage: unit-test
+  needs: ["fmt"]
+  image: rust:latest
+  script:
+    - ./test.sh
