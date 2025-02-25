@@ -16,11 +16,6 @@ variables:
   CARGO_HOME: $CI_PROJECT_DIR/cargo
   APT_CACHE_DIR: $CI_PROJECT_DIR/apt
 
-before_script:
-  - cargo --version
-  - rustc --version
-
-
 docker-image-build:
   stage: docker-build
   image: docker:28.0.0
