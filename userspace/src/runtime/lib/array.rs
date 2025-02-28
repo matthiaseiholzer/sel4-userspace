@@ -9,17 +9,29 @@ use core::ops::IndexMut;
 use core::prelude::rust_2024::derive;
 use core::ptr;
 
-#[derive(Clone, Debug, Eq, PartialEq)]
+#[derive(Clone, Debug, Eq)]
 pub struct Array<T, const C: usize> {
     pub data: [T; C],
     pub len: usize,
+}
+
+impl<T: PartialEq, const C: usize> PartialEq for Array<T, C> {
+    fn eq(&self, other: &Self) -> bool {
+        if self.len != other.len {
+            return false;
+        }
+        if self.data[0..self.len] != other.data[0..self.len] {
+            return false;
+        }
+        true
+    }
 }
 
 impl<T, const C: usize> Default for Array<T, C> {
     fn default() -> Self {
         unsafe {
             Array {
-                data: MaybeUninit::uninit().assume_init(),
+                data: MaybeUninit::zeroed().assume_init(),
                 len: 0,
             }
         }

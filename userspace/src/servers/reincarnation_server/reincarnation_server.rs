@@ -25,13 +25,12 @@ pub fn reincarnation_server<K: Kernel>(thread: &mut Thread<K>, boot_info: &BootI
 
     //kernel.delete(CapSpaceManager::C_CSPACE_ROOT, CapSpaceManager::C_CSPACE_ROOT);
     let _ = kernel.copy(
-            CapSpaceManager::C_CSPACE_ROOT,
-            CapAddr::from(CapSpaceManager::C_ASID_OFFSET, 2),
-            CapSpaceManager::C_CSPACE_ROOT,
-            
-            CapAddr::from(CapSpaceManager::C_ASID_OFFSET, 2),
-            CapRights::default(),
-        );
+        CapSpaceManager::C_CSPACE_ROOT,
+        CapAddr::from(CapSpaceManager::C_ASID_OFFSET, 2),
+        CapSpaceManager::C_CSPACE_ROOT,
+        CapAddr::from(CapSpaceManager::C_ASID_OFFSET, 2),
+        CapRights::default(),
+    );
 
     let c_t0: CapAddr = CapSpaceManager::cap_addr_l012(0, 0, 450);
     let c_t1: CapAddr = CapSpaceManager::cap_addr_l012(0, 0, 451);

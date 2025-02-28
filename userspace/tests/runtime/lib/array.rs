@@ -11,6 +11,23 @@ fn default() {
 }
 
 #[test]
+fn partial_eq() {
+    const LEN: usize = 10;
+    let array = Array::<usize, LEN>::default();
+    let array_ref = Array {
+        data: [1; LEN],
+        len: 0,
+    };
+
+    let array_ref = Array {
+        data: [1; LEN],
+        len: 0,
+    };
+
+    assert_eq!(array, array_ref);
+}
+
+#[test]
 fn push_empty() {
     const LEN: usize = 4;
     let mut array = Array::<usize, LEN>::default();

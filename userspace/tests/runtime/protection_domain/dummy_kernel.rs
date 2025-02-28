@@ -52,8 +52,10 @@ impl Kernel for DummyKernel {
     fn sys_reply(&self, _: usize, _: usize, _: usize, _: usize, _: usize, _: usize) {
         todo!()
     }
-    
-    fn debug_cap_identify(&self, _: usize) -> usize { todo!() }
+
+    fn debug_cap_identify(&self, _: usize) -> usize {
+        todo!()
+    }
 }
 
 impl TCB for DummyKernel {
@@ -159,15 +161,9 @@ impl CNode for DummyKernel {
     ) -> Result<(), sel4_userspace::runtime::kernel::Error> {
         todo!()
     }
-    fn delete(
-        &self,
-        _: CapAddr,
-        _: CapAddr
-    ) -> Result<(), sel4_userspace::runtime::kernel::Error> {
+    fn delete(&self, _: CapAddr, _: CapAddr) -> Result<(), sel4_userspace::runtime::kernel::Error> {
         todo!()
     }
-    
-    
 }
 
 impl Untyped for DummyKernel {
