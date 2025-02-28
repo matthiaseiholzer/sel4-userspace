@@ -1,0 +1,35 @@
+
+\documentclass{article}
+
+\usepackage{amsmath} 
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{biblatex}
+\usetikzlibrary{snakes}
+
+\addbibresource{refs.bib}
+
+\title{} 
+\author{Matthias Eiholzer}
+\date{\today}
+
+
+\begin{document} 
+    \maketitle
+    
+    \newpage
+    \tableofcontents
+    \newpage
+    \input{architecture.tex}
+    \newpage
+    \input{protection_domain.tex}
+
+    \newpage
+    \input{reincarnation_server.tex}
+    \newpage
+    \input{live_update.tex}
+    \newpage
+    
+   
+    \printbibliography
+\end{document}

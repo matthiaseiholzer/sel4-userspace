@@ -1,0 +1,6 @@
+target/*/*
+target
+build/**
+.vscode/**
+doc/output/*
+Cargo.lock

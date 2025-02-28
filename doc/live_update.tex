@@ -1,0 +1,31 @@
+\section{Live Update}
+
+The live update process is orchestrated by the update manager (UM), which provides
+the interface to deploy live updates for all PDs (except itself). When
+an update is available, the update manager loads the new PD instances in mem-
+ory and requests all the PDs involved in the update to converge to the required
+update state. When done, PD reports back to UM and blocks. At the end
+of the preparation phase, UM atomically replaces the PD with their new
+counterparts. The new PD performs state transfer and reports back to the update
+manager when done. At the end of the state transfer phase, the old processes are
+cleaned up and the new processes are allowed to resume execution. Synchroniza-
+tion between the update manager and the OS processes is entirely based on message
+passing. 
+Live updates use atomic transactions: the update manager can safely abort
+and rollback the update during any stage of the update process, since no changes are
+made to the original PD. 
+
+
+\paragraph{Send update message}
+After receive the update message, the PD has to persist 
+the current state
+All capabilities have to be transfered to the new PD
+
+Virtual address space is completly newly created in the new PD.
+
+\paragraph{State serialization}
+\paragraph{Persist state}
+\paragraph{Update}
+\paragraph{Load state}
+\paragraph{State deserialization}
+

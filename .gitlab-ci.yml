@@ -18,6 +18,7 @@ variables:
 
 docker-image-build:
   stage: docker-build
+  when: manual
   image: docker:28.0.0
   services:
     - docker:28.0.0-dind

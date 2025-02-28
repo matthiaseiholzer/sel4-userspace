@@ -1,0 +1,25 @@
+[package]
+name = "sel4_os"
+version = "0.0.1"
+authors = ["Matthias Eiholzer <matthias.eiholzer@gmail.com>"]
+edition = "2021"
+readme = "README.md"
+license = "MIT"
+
+[lib]
+name = "sel4_os"
+crate-type = ["staticlib", "rlib"] 
+
+[profile.dev]
+panic = "abort"
+
+[profile.release]
+panic = "abort"
+
+# [workspace]
+# members = [
+#    "./userspace/"
+# ]
+
+[dependencies.sel4_userspace]
+path = "./userspace"
