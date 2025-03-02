@@ -59,7 +59,7 @@ pub fn root_server<K: Kernel>(
                 );
             }
         }
-        let _ = kernel.resume(tcb_cap_idx);
+        //let _ = kernel.resume(tcb_cap_idx);
     }
 
     loop {
