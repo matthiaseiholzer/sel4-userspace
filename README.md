@@ -7,6 +7,8 @@ provided by programs running in user mode[sel4].
 
 The goal of this project is to develeop userspace services, which provide this functionality in the userspace based on seL4.
 
+
+
 ## Virtual memory management
 seL4 does not provide virtual memory management, beyond kernel primitives for manipulating hardware paging structures. 
 Therefore, the user space services must provide creating intermediate paging structures, mapping and unmapping pages.

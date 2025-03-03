@@ -1,16 +1,14 @@
-\section{Protection domain}
+\subsection{Protection domain}
+A protection domain(PD) is a concept of seL4. It is similar to a "process" on typical UNIX systems. 
+However, by default a protection domain cannot do much and is completly isolated from all other protection domains.
+Each PD consists of three components. It consists in minimum of one thread, a virtual address space(VSpace) and a capability space(CSpace).
 
-\subsection{Threads}
+\subsubsection{Threads}
+For simplicity, each protection domain consists of exactly on thread.
 
-\subsubsection{Thread control block}
-
-\subsubsection{Priority}
-
-\subsubsection{Stack}
-
-\subsection{Virtual address space}
-the complete virtual address space consists of the parts.
-The lower part is the user space. the upper part is the kernel space.
+\subsubsection{Virtual address space(VSpace)}
+The complete virtual address space of each PD consists of two parts.
+The lower part is the user space. The upper part is the kernel space.
 The user space begins at address $us_b = 0$ and ends at address $us_e$. $us_e$ is defined
 by $seL4$. For example: For RISC-V 64 it is define as $0x0000003ffffff000$.
 
@@ -31,7 +29,10 @@ by $seL4$. For example: For RISC-V 64 it is define as $0x0000003ffffff000$.
     \node () [rotate=90] at (-1.0, 10.8) {Kernel space};
 \end{tikzpicture}
 
-\subsubsection{User space}
+\paragraph{Kernel space}
+
+
+\paragraph{User space}
 
 \begin{tikzpicture}
     \tikzstyle{help lines}+=[dashed]
@@ -115,7 +116,7 @@ page would be stored.
 IPC: 
 
 
-\subsubsection{RISCV SV39}
+\paragraph{RISCV SV39}
 Virtual address
 
 3 Level
@@ -161,12 +162,10 @@ Page size: $2^12$ bytes
 \end{tikzpicture}
 
 
-
-\subsection{Capability space}
-
-
-\subsection{Capability addressing}
-
+\subsubsection{Capability space(CSpace)}
+Each protection domain has its own capability space, which is a data structure that holds all capabilities that a PD has access to.
+A PDs is not able to access anything unless it is explicitly allow to do it. This is allowed by the capability system, as all resources in seL4 are modelled by capabilities. 
+If a PD does not have the capability to some resource, seL4 does not allow it to use it.
 
 \begin{figure}
     \includegraphics[scale=0.5]{./figures/seL4_cap_space_addresssing.png}
@@ -236,3 +235,5 @@ $4096 / 32 = 128$
     
 \end{tikzpicture}
 
+
+PD does not have the capability to manipulate its own CSpace, consequently neither its Vspace.
