@@ -1,14 +1,24 @@
 \section{Architecture}
 
+
 \subsection{sel4 microkernel}
 "seL4 is a high-assurance, high-performance operating system microkernel. It is unique because of its comprehensive formal verification, without compromising performance." \cite{seL4:2024}
 
 \subsection{Userspace}
 
-Rust
-
+\subsection{High availababilty}
+seL4 is proven to bug free. Contrary to this, the userspace services/servers aren't proven to be bug free. If such a service crashes, it is necessary to restart it automatically.
+Minix3's reincanation server \cite{minix3:2010} implements the functionality to restart a crashed server. A similar concept is implemented to restart crashed services automatically to reach 
+high availability.
 
 \subsubsection{Reincarnation server}
+seL4 is proven to bug free. Contrary to this, the userspace services/servers aren't proven to be bug free. If such a service crashes, it is necessary to restart it automatically.
+Minix3's reincanation server \cite{minix3:2010} implements the functionality to restart a crashed server. A similar concept is implemented to restart crashed services automatically to reach 
+high availability.
 
 \subsubsection{Live update}
-Update without newstart
+Update without complete system restart.
+
+\subsection{Rust}
+Rust is a general-purpose programming language emphasizing performance, type safety, and concurrency. It enforces memory safety, meaning that all references point to valid memory[rust]. 
+This is why it is predestined to be used as system programming language and used in this project.

@@ -1,30 +1,25 @@
+# Userspace for seL4
+seL4 is a high-assurance, high-performance operating system microkernel. It is unique because of its comprehensive formal verification, without compromising performance.
+It provides fine-grained access control through capabilities, and controls communication between components of the system.
+seL4's formal verification sets it apart from any other operating system. In a nutshell, it provides the highest assurance of isolation between applications running in the system, meaning that a compromise in one part of the system can be contained and prevented from harming other, potentially more critical parts of the system. 
+Being a microkernel, seL4 contains none of the usual OS services; such services are
+provided by programs running in user mode[sel4].
 
+The goal of this project is to develeop userspace services, which provide this functionality in the userspace based on seL4.
 
-kernel -> libsel4 -> include -> sel4 -> functions.h -> __sel4_ipc_buffer -> remove __thread
+## Virtual memory management
+seL4 does not provide virtual memory management, beyond kernel primitives for manipulating hardware paging structures. 
+Therefore, the user space services must provide creating intermediate paging structures, mapping and unmapping pages.
 
-kernel -> libsel4/src/sel4_bootinfo.c -> __sel4_ipc_buffer -> remove __thread
+## High availababilty
+seL4 is proven to bug free. Contrary to this, the userspace services/servers aren't proven to be bug free. If such a service crashes, it is necessary to restart it automatically.
+Minix3's reincanation server [minix3] implements the functionality to restart a crashed server. A similar concept is implemented to restart crashed services automatically to reach 
+high availability.
 
-rust-toolchain -> 
-[toolchain]
-#channel = "nightly-2023-06-15"
-#targets = [ "riscv64gc-unknown-none-elf" ]
+## Rust
+Rust is a general-purpose programming language emphasizing performance, type safety, and concurrency. It enforces memory safety, meaning that all references point to valid memory[rust]. 
+This is why it is predestined to be used as system programming language and used in this project.
 
-Introduces a bug, while initating the timer
-https://github.com/seL4/seL4/commit/69040396083959df9bb7cdc193cdf3f13af5bde8
-
-git reset --hard e1bdd809b6d7005379d3f147f4f95ec7865e1cca
-
-# for testing
-rustup toolchain install stable-riscv64gc-unknown-linux-gnu
-
-# Principle of least privilege
-
-# Reincarnation Server
-
-# Live update
-
-A live update is an update to a service while it is active, allowing the service's code and data to be changed without affecting the environment around it. As a result, these services can be be updated at run time without requiring a system reboot.
-
-# Dynamic Architectures
-
-# Modularity
+[sel4]: https://sel4.systems/About/
+[minix3]: https://www.minix3.org/docs/login-2010.pdf
+[rust]: https://en.wikipedia.org/wiki/Rust_(programming_language)

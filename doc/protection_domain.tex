@@ -11,23 +11,23 @@
 \subsection{Virtual address space}
 the complete virtual address space consists of the parts.
 The lower part is the user space. the upper part is the kernel space.
-The user space begins at address 0 and ends at address $u_e$. $u_{e_{seL4}}$ is defined
-by $seL4$
+The user space begins at address $us_b = 0$ and ends at address $us_e$. $us_e$ is defined
+by $seL4$. For example: For RISC-V 64 it is define as $0x0000003ffffff000$.
 
 \begin{tikzpicture}
     \tikzstyle{help lines}+=[dashed]
     \draw[style=help lines] (0,0) grid +(1,15);
-    \node (u_b) at (-0.5, 0.2) {0};
-    \node (u) at (-0.5, 1.2) {4096};
+    \node (us_b) at (-0.5, 0.2) {$us_b = 0$};
+    \node (us) at (-0.5, 1.2) {4096};
     \node () at (-0.5, 2.3) {8192};
-    \node (u_e) at (-0.5, 7.2) {$us_e = ks_b$};
+    \node (us_e) at (-0.5, 7.2) {$us_e = ks_b$};
 
-    \draw[snake=brace] (u_b) -- (u_e);
+    \draw[snake=brace] (us_b) -- (us_e);
     \node () [rotate=90] at (-1.0, 3.6) {User space};
 
-    \node (k_b) at (-0.5, 7.2) {};
-    \node (k_e) at (-0.5, 15.0) {};
-    \draw[snake=brace] (k_b) -- (k_e);
+    \node (ks_b) at (-0.5, 7.2) {};
+    \node (ks_e) at (-0.5, 15.0) {};
+    \draw[snake=brace] (ks_b) -- (ks_e);
     \node () [rotate=90] at (-1.0, 10.8) {Kernel space};
 \end{tikzpicture}
 
