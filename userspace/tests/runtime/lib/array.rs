@@ -1,5 +1,5 @@
 use core::default::Default;
-use sel4_userspace::runtime::lib::array::Array;
+use sel4_us::runtime::lib::array::Array;
 
 #[test]
 fn default() {

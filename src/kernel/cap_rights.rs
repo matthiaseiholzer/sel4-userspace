@@ -1,5 +1,5 @@
 use super::sys::types::seL4_CapRights;
-use sel4_userspace::runtime::cap_space::cap_rights::CapRights;
+use sel4_us::runtime::cap_space::cap_rights::CapRights;
 
 impl From<seL4_CapRights> for CapRights {
     fn from(cr: seL4_CapRights) -> CapRights {

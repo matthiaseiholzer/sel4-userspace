@@ -1,5 +1,5 @@
 use super::sys::message_info::seL4_MessageInfo;
-use sel4_userspace::runtime::kernel::MessageInfo;
+use sel4_us::runtime::kernel::MessageInfo;
 
 // block seL4_MessageInfo {
 //     field label 52

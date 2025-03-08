@@ -1,4 +1,4 @@
-use sel4_userspace::runtime::va_space::page::Attributes;
+use sel4_us::runtime::va_space::page::Attributes;
 
 use super::sys::types::seL4_RISCV_VMAttributes;
 

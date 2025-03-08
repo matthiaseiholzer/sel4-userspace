@@ -1,4 +1,4 @@
-use sel4_userspace::runtime::kernel::Error;
+use sel4_us::runtime::kernel::Error;
 
 use super::sys::types::seL4_Error;
 

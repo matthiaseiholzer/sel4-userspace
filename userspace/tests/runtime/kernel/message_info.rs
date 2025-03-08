@@ -1,4 +1,4 @@
-use sel4_userspace::runtime::kernel::MessageInfo;
+use sel4_us::runtime::kernel::MessageInfo;
 
 #[test]
 fn default() {

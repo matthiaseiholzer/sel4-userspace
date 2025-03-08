@@ -63,6 +63,12 @@ pub fn root_server<K: Kernel>(
     }
 
     loop {
-        let _ = kernel.suspend(CapAddr::from_const(CapInit::InitThreadTCB as usize));
+    
+        for i in 0..1_000_000_000 {
+            
+        }
+    
+        kernel.dump_scheduler();
+        //let _ = kernel.suspend(CapAddr::from_const(CapInit::InitThreadTCB as usize));
     }
 }

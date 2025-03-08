@@ -29,19 +29,19 @@ use crate::kernel::sys::syscall::{seL4_CNode_Copy, seL4_DebugNameThread, seL4_Un
 use crate::kernel::sys::types::seL4_Error;
 use crate::kernel::sys::types::seL4_UserContext;
 use crate::kernel::sys::types::seL4_Word;
-use sel4_userspace::runtime::cap_space::cap_rights::CapRights;
-use sel4_userspace::runtime::cap_space::CapAddr;
-use sel4_userspace::runtime::cap_space::CapData;
-use sel4_userspace::runtime::kernel::ASIDPool;
-use sel4_userspace::runtime::kernel::Error;
-use sel4_userspace::runtime::kernel::MessageInfo;
-use sel4_userspace::runtime::kernel::Page;
-use sel4_userspace::runtime::kernel::PageTable;
-use sel4_userspace::runtime::kernel::Untyped;
-use sel4_userspace::runtime::kernel::UntypedType;
-use sel4_userspace::runtime::kernel::UserContext;
-use sel4_userspace::runtime::kernel::{CNode, Kernel, TCB};
-use sel4_userspace::runtime::va_space::page::Attributes;
+use sel4_us::runtime::cap_space::cap_rights::CapRights;
+use sel4_us::runtime::cap_space::CapAddr;
+use sel4_us::runtime::cap_space::CapData;
+use sel4_us::runtime::kernel::ASIDPool;
+use sel4_us::runtime::kernel::Error;
+use sel4_us::runtime::kernel::MessageInfo;
+use sel4_us::runtime::kernel::Page;
+use sel4_us::runtime::kernel::PageTable;
+use sel4_us::runtime::kernel::Untyped;
+use sel4_us::runtime::kernel::UntypedType;
+use sel4_us::runtime::kernel::UserContext;
+use sel4_us::runtime::kernel::{CNode, Kernel, TCB};
+use sel4_us::runtime::va_space::page::Attributes;
 
 impl From<seL4_Error> for Result<(), Error> {
     fn from(value: seL4_Error) -> Self {
@@ -130,8 +130,15 @@ impl Kernel for SeL4Kernel {
             riscv_sys_reply(sys, info_arg, mr0, mr1, mr2, mr3);
         }
     }
+
     fn debug_cap_identify(&self, cap: usize) -> usize {
         unsafe { seL4_DebugCapIdentify(cap) as usize }
+    }
+
+    fn dump_scheduler(&self) {
+        unsafe {
+            seL4_DebugDumpScheduler();
+        }
     }
 }
 

@@ -1,4 +1,4 @@
-use sel4_userspace::runtime::cap_space::CapSpaceManager;
+use sel4_us::runtime::cap_space::CapSpaceManager;
 
 #[test]
 fn test0() {

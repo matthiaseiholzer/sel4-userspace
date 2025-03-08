@@ -1,4 +1,4 @@
-use sel4_userspace::runtime::lib::mutex::Mutex;
+use sel4_us::runtime::lib::mutex::Mutex;
 use std::sync::Arc;
 
 #[test]

@@ -1,4 +1,4 @@
-use sel4_userspace::runtime::kernel::SlotRegion;
+use sel4_us::runtime::kernel::SlotRegion;
 
 use super::types::seL4_Word;
 use core::clone::Clone;

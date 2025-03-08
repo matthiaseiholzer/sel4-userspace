@@ -1,4 +1,4 @@
-use sel4_userspace::runtime::cap_space::cap_rights::CapRights;
+use sel4_us::runtime::cap_space::cap_rights::CapRights;
 
 #[test]
 fn default() {

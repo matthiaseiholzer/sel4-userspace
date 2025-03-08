@@ -1,5 +1,5 @@
 [package]
-name = "sel4_os"
+name = "sel4_userspace"
 version = "0.0.1"
 authors = ["Matthias Eiholzer <matthias.eiholzer@gmail.com>"]
 edition = "2021"
@@ -7,7 +7,7 @@ readme = "README.md"
 license = "MIT"
 
 [lib]
-name = "sel4_os"
+name = "sel4_userspace"
 crate-type = ["staticlib", "rlib"] 
 
 [profile.dev]
@@ -21,5 +21,5 @@ panic = "abort"
 #    "./userspace/"
 # ]
 
-[dependencies.sel4_userspace]
+[dependencies.sel4_us]
 path = "./userspace"

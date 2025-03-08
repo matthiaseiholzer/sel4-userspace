@@ -7,32 +7,41 @@ Each PD consists of three components. It consists in minimum of one thread, a vi
 For simplicity, each protection domain consists of exactly on thread.
 
 \subsubsection{Virtual address space(VSpace)}
+The VSpace is managed by each individual protection domain in by seL4 given limits. Means that each protection domain can use different alogorithms to manages its
+own virtual address space.
+
 The complete virtual address space of each PD consists of two parts.
 The lower part is the user space. The upper part is the kernel space.
 The user space begins at address $us_b = 0$ and ends at address $us_e$. $us_e$ is defined
 by $seL4$. For example: For RISC-V 64 it is define as $0x0000003ffffff000$.
 
-\begin{tikzpicture}
-    \tikzstyle{help lines}+=[dashed]
-    \draw[style=help lines] (0,0) grid +(1,15);
-    \node (us_b) at (-0.5, 0.2) {$us_b = 0$};
-    \node (us) at (-0.5, 1.2) {4096};
-    \node () at (-0.5, 2.3) {8192};
-    \node (us_e) at (-0.5, 7.2) {$us_e = ks_b$};
-
-    \draw[snake=brace] (us_b) -- (us_e);
-    \node () [rotate=90] at (-1.0, 3.6) {User space};
-
-    \node (ks_b) at (-0.5, 7.2) {};
-    \node (ks_e) at (-0.5, 15.0) {};
-    \draw[snake=brace] (ks_b) -- (ks_e);
-    \node () [rotate=90] at (-1.0, 10.8) {Kernel space};
-\end{tikzpicture}
+% \begin{figure}[ht]
+%     \centering
+    \begin{tikzpicture}
+        \tikzstyle{help lines}+=[dashed]
+        \draw[style=help lines] (0,0) grid +(1,12);
+        \node (us_b) at (-0.5, 0.2) {$us_b = 0$};
+        \node (us) at (-0.5, 1.2) {4096};
+        \node () at (-0.5, 2.3) {8192};
+        \node (us_e) at (-0.5, 7.2) {$us_e = ks_b$};
+    
+        \draw[snake=brace] (us_b) -- (us_e);
+        \node () [rotate=90] at (-1.0, 3.6) {User space};
+    
+        \node (ks_b) at (-0.5, 7.2) {};
+        \node (ks_e) at (-0.5, 12.0) {$ks_e$};
+        \draw[snake=brace] (ks_b) -- (ks_e);
+        \node () [rotate=90] at (-1.0, 10.0) {Kernel space};
+    \end{tikzpicture}
+%     \caption{Virtual address space in protection domain}
+%     \label{fig:vas}
+% \end{figure}
 
 \paragraph{Kernel space}
-
+Kernel space is managed by the seL4 kernel and can not be accessed by the user space program.
 
 \paragraph{User space}
+The user space is managed by the user space application by calling kernel functions.
 
 \begin{tikzpicture}
     \tikzstyle{help lines}+=[dashed]
@@ -162,6 +171,8 @@ Page size: $2^12$ bytes
 \end{tikzpicture}
 
 
+
+
 \subsubsection{Capability space(CSpace)}
 Each protection domain has its own capability space, which is a data structure that holds all capabilities that a PD has access to.
 A PDs is not able to access anything unless it is explicitly allow to do it. This is allowed by the capability system, as all resources in seL4 are modelled by capabilities. 
@@ -236,4 +247,4 @@ $4096 / 32 = 128$
 \end{tikzpicture}
 
 
-PD does not have the capability to manipulate its own CSpace, consequently neither its Vspace.
+Every PD maintains its own cap space

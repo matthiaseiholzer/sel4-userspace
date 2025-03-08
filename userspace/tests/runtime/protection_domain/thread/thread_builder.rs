@@ -1,5 +1,5 @@
-use sel4_userspace::runtime::protection_domain::thread::Thread;
-use sel4_userspace::runtime::protection_domain::thread::ThreadBuilder;
+use sel4_us::runtime::protection_domain::thread::Thread;
+use sel4_us::runtime::protection_domain::thread::ThreadBuilder;
 
 // fn thread1(thread: &mut Thread<K>) {}
 

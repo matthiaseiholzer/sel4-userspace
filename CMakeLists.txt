@@ -3,7 +3,7 @@ include(./settings.cmake)
 
 cmake_minimum_required(VERSION 3.26.4)
 # declare the hello-world CMake project and the languages it is written in (just C)
-project(sel4_os C ASM)
+project(sel4_userspace C ASM)
 
 # In future tutorials, these setup steps will be replaced with
 find_package(seL4 REQUIRED)
@@ -26,11 +26,11 @@ util_libs_import_libraries()
 
 
 # Name the executable and list source files required to build it
-add_executable(sel4_os src/constructors.c)
+add_executable(sel4_userspace src/constructors.c)
 
 # List of libraries to link with the application.
 target_link_libraries(
-    sel4_os
+    sel4_userspace
     sel4_autoconf
     sel4runtime 
     muslc 
@@ -39,9 +39,9 @@ target_link_libraries(
     sel4runtime_Config
 )
 
-target_link_libraries(sel4_os ${project_dir}/target/riscv64gc-unknown-none-elf/debug/libsel4_os.a)
-target_link_libraries(sel4_os -Wl,-u -Wl,register_debug_putchar)
-target_include_directories(sel4_os PUBLIC include)
+target_link_libraries(sel4_userspace ${project_dir}/target/riscv64gc-unknown-none-elf/debug/libsel4_userspace.a)
+target_link_libraries(sel4_userspace -Wl,-u -Wl,register_debug_putchar)
+target_include_directories(sel4_userspace PUBLIC include)
 
 
 include(${project_dir}/kernel/configs/seL4Config.cmake)
@@ -52,7 +52,7 @@ ApplyData61ElfLoaderSettings(${KernelPlatform} ${KernelSel4Arch})
 
 # Tell the build system that this application is the root task. 
 include(rootserver)
-DeclareRootserver(sel4_os)
+DeclareRootserver(sel4_userspace)
 
 if(SIMULATION)
     include(simulation)

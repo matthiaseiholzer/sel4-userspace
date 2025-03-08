@@ -1,4 +1,4 @@
-use sel4_userspace::runtime::cap_space::CapAddr;
+use sel4_us::runtime::cap_space::CapAddr;
 
 #[test]
 fn from_const() {

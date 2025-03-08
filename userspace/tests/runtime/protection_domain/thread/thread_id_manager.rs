@@ -1,4 +1,4 @@
-use sel4_userspace::runtime::protection_domain::thread::{ThreadId, ThreadIdManager};
+use sel4_us::runtime::protection_domain::thread::{ThreadId, ThreadIdManager};
 
 #[test]
 fn alloc_id_empty() {

@@ -1,5 +1,5 @@
 [package]
-name = "sel4_userspace"
+name = "sel4_us"
 version = "0.0.1"
 authors = ["Matthias Eiholzer <matthias.eiholzer@gmail.com>"]
 edition = "2021"

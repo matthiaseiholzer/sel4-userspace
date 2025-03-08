@@ -1,4 +1,4 @@
-use sel4_userspace::runtime::kernel::UntypedDesc;
+use sel4_us::runtime::kernel::UntypedDesc;
 
 use super::sys::untypeddesc::seL4_UntypedDesc;
 

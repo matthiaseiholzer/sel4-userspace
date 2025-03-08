@@ -1,4 +1,4 @@
-use sel4_userspace::runtime::cap_space::CapData;
+use sel4_us::runtime::cap_space::CapData;
 
 #[test]
 fn new() {

@@ -1,5 +1,5 @@
 use super::sys::boot_info::seL4_BootInfo;
-use sel4_userspace::runtime::kernel::{
+use sel4_us::runtime::kernel::{
     constants::CONFIG_MAX_NUM_BOOTINFO_UNTYPED_CAPS, BootInfo, IPCBuffer, UntypedDesc,
 };
 
