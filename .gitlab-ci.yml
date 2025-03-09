@@ -2,6 +2,7 @@ stages:
   - docker-build
   - lint
   - unit-test
+  - build
   - report
   - deploy
 
@@ -26,8 +27,16 @@ docker-image-build:
     IMAGE_TAG: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
   script:
     - echo "$CI_REGISTRY_PASSWORD" | docker login $CI_REGISTRY -u $CI_REGISTRY_USER --password-stdin
-    - docker build -t $IMAGE_TAG .
+    - docker build -t $IMAGE_TAG $CI_REGISTRY_IMAGE:latest .
     - docker push $IMAGE_TAG
+
+build:
+  stage: build
+  before_script:
+    - echo "$CI_REGISTRY_PASSWORD" | docker login $CI_REGISTRY -u $CI_REGISTRY_USER --password-stdin
+  image: $CI_REGISTRY_IMAGE:latest
+  script:
+    - ./build.sh
 
 fmt:
   stage: lint
