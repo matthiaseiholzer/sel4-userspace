@@ -32,8 +32,6 @@ docker-image-build:
 
 build:
   stage: build
-  before_script:
-    - echo "$CI_REGISTRY_PASSWORD" | docker login $CI_REGISTRY -u $CI_REGISTRY_USER --password-stdin
   image: $CI_REGISTRY_IMAGE:main
   script:
     - ./build.sh
