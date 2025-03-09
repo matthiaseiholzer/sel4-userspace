@@ -78,7 +78,7 @@ if __name__ == "__main__":
     args.qemu_sim_mem_size = "3072M"
     qemu_sim_mem_size_entry = "-m size=" + args.qemu_sim_mem_size
 
-    qemu_sim_device = "-device loader,file=sel4_os,force-raw=on,addr=0xA00000000 "
+    qemu_sim_device = "-device loader,file=sel4_userspace,force-raw=on,addr=0xA00000000 "
 
     qemu_simulate_command_opts = [args.qemu_sim_binary, qemu_sim_machine_entry, qemu_sim_cpu_entry, args.qemu_sim_graphic_opt,
                                   args.qemu_sim_serial_opt, qemu_sim_mem_size_entry, args.qemu_sim_extra_args, qemu_sim_images_entry,
