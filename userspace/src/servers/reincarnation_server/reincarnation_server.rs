@@ -18,28 +18,28 @@ pub fn reincarnation_server<K: Kernel>(thread: &mut Thread<K>, boot_info: &BootI
     let _ = thread.set_debug_name(&"reincarnation\0");
 
     let kernel = thread.pd.kernel();
-    let mut untyped_memory_manager = UntypedMemoryManager::new(boot_info);
+    // let mut untyped_memory_manager = UntypedMemoryManager::new(boot_info);
 
-    let cap_type: CapType = thread.identify_cap(CapSpaceManager::C_CSPACE_ROOT);
-    print_str!(thread, "Cap Type: {:?}\n", cap_type);
+    // let cap_type: CapType = thread.identify_cap(CapSpaceManager::C_CSPACE_ROOT);
+    // print_str!(thread, "Cap Type: {:?}\n", cap_type);
 
-    //kernel.delete(CapSpaceManager::C_CSPACE_ROOT, CapSpaceManager::C_CSPACE_ROOT);
-    let _ = kernel.copy(
-        CapSpaceManager::C_CSPACE_ROOT,
-        CapAddr::from(CapSpaceManager::C_ASID_OFFSET, 2),
-        CapSpaceManager::C_CSPACE_ROOT,
-        CapAddr::from(CapSpaceManager::C_ASID_OFFSET, 2),
-        CapRights::default(),
-    );
+    // //kernel.delete(CapSpaceManager::C_CSPACE_ROOT, CapSpaceManager::C_CSPACE_ROOT);
+    // let _ = kernel.copy(
+    //     CapSpaceManager::C_CSPACE_ROOT,
+    //     CapAddr::from(CapSpaceManager::C_ASID_OFFSET, 2),
+    //     CapSpaceManager::C_CSPACE_ROOT,
+    //     CapAddr::from(CapSpaceManager::C_ASID_OFFSET, 2),
+    //     CapRights::default(),
+    // );
 
-    let c_t0: CapAddr = CapSpaceManager::cap_addr_l012(0, 0, 450);
-    let c_t1: CapAddr = CapSpaceManager::cap_addr_l012(0, 0, 451);
+    // let c_t0: CapAddr = CapSpaceManager::cap_addr_l012(0, 0, 450);
+    // let c_t1: CapAddr = CapSpaceManager::cap_addr_l012(0, 0, 451);
 
-    let root_space_idx = CapSpaceManager::cap_addr_l012(0, 0, 500);
+    // let root_space_idx = CapSpaceManager::cap_addr_l012(0, 0, 500);
 
-    create_endpoint(kernel.clone(), &mut untyped_memory_manager);
-    {
-        let tcb_cap_idx = CapSpaceManager::cap_addr_l012(0, 0, 501);
+    // create_endpoint(kernel.clone(), &mut untyped_memory_manager);
+    // {
+    //     let tcb_cap_idx = CapSpaceManager::cap_addr_l012(0, 0, 501);
         // create_pd(
         //     kernel.clone(),
         //     boot_info,
@@ -58,10 +58,14 @@ pub fn reincarnation_server<K: Kernel>(thread: &mut Thread<K>, boot_info: &BootI
         //     dummy_server_notification,
         // );
         //let _ = kernel.resume(tcb_cap_idx);
-    }
+        //}
 
     loop {
-        //thread.debug_dump_scheduler();
+        for i in 0..40_000_000 {
+            
+        }
+        print_str!(thread, "Reincarnation Server\n");
+        thread.debug_dump_scheduler();
         // let mut sender: usize = 0;
         // thread.receive(CapSpaceManager::C_MT_EP, &mut sender);
 

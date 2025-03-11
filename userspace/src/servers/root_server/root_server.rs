@@ -59,15 +59,15 @@ pub fn root_server<K: Kernel>(
                 );
             }
         }
-        //let _ = kernel.resume(tcb_cap_idx);
+        let _ = kernel.resume(tcb_cap_idx);
     }
 
     loop {
     
-        for i in 0..1_000_000_000 {
+        for i in 0..40_000_000 {
             
         }
-    
+        //print_str!(thread, "Cap Type: {:?}\n", cap_type);
         kernel.dump_scheduler();
         //let _ = kernel.suspend(CapAddr::from_const(CapInit::InitThreadTCB as usize));
     }
