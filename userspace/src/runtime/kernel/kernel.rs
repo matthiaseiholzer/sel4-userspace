@@ -65,7 +65,7 @@ pub trait Kernel: Clone + CNode + TCB + Untyped + PageTable + Page + ASIDPool {
     );
 
     fn debug_cap_identify(&self, cap: usize) -> usize;
-    
+
     fn dump_scheduler(&self);
 }
 

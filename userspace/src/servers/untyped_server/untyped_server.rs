@@ -1,5 +1,3 @@
-use super::api::ReincarnationServerMessage;
-use super::create_endpoint::{self, create_endpoint};
 use crate::print_str;
 use crate::runtime::cap_space::cap::CapType;
 use crate::runtime::cap_space::cap_rights::CapRights;
@@ -9,13 +7,10 @@ use crate::runtime::kernel::{BootInfo, IPCBuffer, Kernel, MessageInfo};
 use crate::runtime::protection_domain::thread::Thread;
 use crate::runtime::protection_domain::ProtectionDomain;
 use crate::runtime::va_space::VASpaceManager;
-use crate::servers::dummy_server::dummy_server::dummy_server;
-use crate::servers::reincarnation_server::create_pd::create_pd;
-use crate::servers::root_server::untyped_memory_manager::UntypedMemoryManager;
 use core::mem::size_of;
 
-pub fn reincarnation_server<K: Kernel>(thread: &mut Thread<K>, boot_info: &BootInfo) -> ! {
-    let _ = thread.set_debug_name(&"reincarnation_srv\0");
+pub fn untyped_server<K: Kernel>(thread: &mut Thread<K>, boot_info: &BootInfo) -> ! {
+    let _ = thread.set_debug_name(&"untyped_srv\0");
 
     let kernel = thread.pd.kernel();
     // let mut untyped_memory_manager = UntypedMemoryManager::new(boot_info);
@@ -62,8 +57,7 @@ pub fn reincarnation_server<K: Kernel>(thread: &mut Thread<K>, boot_info: &BootI
 
     loop {
         for i in 0..40_000_000 {}
-        print_str!(thread, "Reincarnation Server\n");
-        thread.debug_dump_scheduler();
+        print_str!(thread, "Untyped Server\n");
         // let mut sender: usize = 0;
         // thread.receive(CapSpaceManager::C_MT_EP, &mut sender);
 
@@ -78,40 +72,4 @@ pub fn reincarnation_server<K: Kernel>(thread: &mut Thread<K>, boot_info: &BootI
 
         // thread.reply(&msg_info);
     }
-}
-
-fn write_message_to_ipc_buffer<K: Kernel>(
-    thread: &mut Thread<K>,
-    message: &ReincarnationServerMessage,
-) -> MessageInfo {
-    unsafe {
-        let ipc_buffer = &mut *thread.ipc_buffer;
-        let buffer = core::slice::from_raw_parts_mut(
-            ipc_buffer.msg.as_mut_ptr() as *mut u8,
-            IPCBuffer::MSG_MAX_LENGTH * size_of::<usize>(),
-        );
-
-        let res = message.serialize(buffer);
-
-        let mut msg_info = MessageInfo::default();
-        msg_info.length = res.unwrap() as u8;
-        msg_info
-    }
-}
-
-fn read_message_from_ipc_buffer<K: Kernel>(thread: &Thread<K>) -> ReincarnationServerMessage {
-    let res = unsafe {
-        let ipc_buffer = &*thread.ipc_buffer;
-        let buffer = core::slice::from_raw_parts(
-            ipc_buffer.msg.as_ptr() as *const u8,
-            IPCBuffer::MSG_MAX_LENGTH * size_of::<usize>(),
-        );
-
-        ReincarnationServerMessage::deserialize(buffer).unwrap()
-    };
-    res
-}
-
-fn alloc() -> Result<usize, ()> {
-    unimplemented!()
 }
