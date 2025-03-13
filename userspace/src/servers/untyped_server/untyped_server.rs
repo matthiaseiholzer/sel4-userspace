@@ -1,19 +1,13 @@
-use crate::print_str;
-use crate::runtime::cap_space::cap::CapType;
-use crate::runtime::cap_space::cap_rights::CapRights;
-use crate::runtime::cap_space::CapAddr;
-use crate::runtime::cap_space::CapSpaceManager;
-use crate::runtime::kernel::{BootInfo, IPCBuffer, Kernel, MessageInfo};
+use crate::runtime::kernel::{BootInfo, Kernel};
 use crate::runtime::protection_domain::thread::Thread;
-use crate::runtime::protection_domain::ProtectionDomain;
-use crate::runtime::va_space::VASpaceManager;
-use core::mem::size_of;
+//use super::untyped_manager::UntypedManager;
+use crate::print_str;
 
-pub fn untyped_server<K: Kernel>(thread: &mut Thread<K>, boot_info: &BootInfo) -> ! {
+pub fn untyped_server<K: Kernel>(thread: &mut Thread<K>, _boot_info: &BootInfo) -> ! {
     let _ = thread.set_debug_name(&"untyped_srv\0");
 
-    let kernel = thread.pd.kernel();
-    // let mut untyped_memory_manager = UntypedMemoryManager::new(boot_info);
+    //let kernel = thread.pd.kernel();
+    //let mut untyped_memory_manager = UntypedManager::new(boot_info);
 
     // let cap_type: CapType = thread.identify_cap(CapSpaceManager::C_CSPACE_ROOT);
     // print_str!(thread, "Cap Type: {:?}\n", cap_type);
@@ -56,7 +50,7 @@ pub fn untyped_server<K: Kernel>(thread: &mut Thread<K>, boot_info: &BootInfo) -
     //}
 
     loop {
-        for i in 0..40_000_000 {}
+        for _ in 0..40_000_000 {}
         print_str!(thread, "Untyped Server\n");
         // let mut sender: usize = 0;
         // thread.receive(CapSpaceManager::C_MT_EP, &mut sender);

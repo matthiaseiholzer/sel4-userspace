@@ -3,3 +3,4 @@ pub mod kernel;
 pub mod lib;
 pub mod protection_domain;
 pub mod va_space;
+pub mod ipc;

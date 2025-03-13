@@ -4,7 +4,7 @@ macro_rules! print_str {
         {
             use $crate::runtime::lib::array_string::ArrayString;
             use core::fmt::Write;
-            use $crate::runtime::protection_domain::thread::Thread;
+            //use $crate::runtime::protection_domain::thread::Thread;
 
             let mut message = ArrayString::<200>::default();
             let _ = message.write_str($dst);
@@ -16,7 +16,7 @@ macro_rules! print_str {
         {
             use $crate::runtime::lib::array_string::ArrayString;
             use core::fmt::Write;
-            use $crate::runtime::protection_domain::thread::Thread;
+            //use $crate::runtime::protection_domain::thread::Thread;
 
             let mut message = ArrayString::<200>::default();
             let _ = message.write_fmt(format_args!($dst, $($args)*));

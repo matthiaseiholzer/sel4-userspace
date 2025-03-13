@@ -9,21 +9,21 @@ impl From<seL4_BootInfo> for BootInfo {
         let untyped_list: [UntypedDesc; CONFIG_MAX_NUM_BOOTINFO_UNTYPED_CAPS] =
             value.untypedList.map(|a| a.into());
         BootInfo {
-            extraLen: value.extraLen,
-            nodeID: value.nodeID,
-            numNodes: value.numNodes,
-            numIOPTLevels: value.numIOPTLevels,
-            ipcBuffer: value.ipcBuffer as *mut IPCBuffer,
+            extra_len: value.extraLen,
+            node_id: value.nodeID,
+            num_nodes: value.numNodes,
+            num_iopt_levels: value.numIOPTLevels,
+            ipc_buffer: value.ipcBuffer as *mut IPCBuffer,
             empty: value.empty.into(),
-            sharedFrames: value.sharedFrames.into(),
-            userImageFrames: value.userImageFrames.into(),
-            userImagePaging: value.userImagePaging.into(),
-            ioSpaceCaps: value.ioSpaceCaps.into(),
-            extraBIPages: value.extraBIPages.into(),
-            initThreadCNodeSizeBits: value.initThreadCNodeSizeBits,
-            initThreadDomain: value.initThreadDomain,
+            shared_frames: value.sharedFrames.into(),
+            user_image_frames: value.userImageFrames.into(),
+            user_image_paging: value.userImagePaging.into(),
+            io_space_caps: value.ioSpaceCaps.into(),
+            extra_bi_pages: value.extraBIPages.into(),
+            init_thread_cnode_size_bits: value.initThreadCNodeSizeBits,
+            init_thread_domain: value.initThreadDomain,
             untyped: value.untyped.into(),
-            untypedList: untyped_list,
+            untyped_list: untyped_list,
         }
     }
 }

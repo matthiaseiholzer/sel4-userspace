@@ -25,7 +25,7 @@ impl<K: Kernel> ThreadBuilder<K> {
         self
     }
 
-    pub fn tcb_cap_addr(&mut self, tcb_cap_addr: CapAddr) -> &mut ThreadBuilder<K> {
+    pub fn tcb_cap_addr(&mut self, _tcb_cap_addr: CapAddr) -> &mut ThreadBuilder<K> {
         unimplemented!()
         //self.tcb_cap_addr = Option::Some(tcb_cap_addr);
         //self

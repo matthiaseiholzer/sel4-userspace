@@ -1,5 +1,3 @@
-use core::{default, mem::size_of};
-
 use crate::runtime::lib::array_string::ArrayString;
 
 #[derive(Debug, Clone, PartialEq, Eq)]

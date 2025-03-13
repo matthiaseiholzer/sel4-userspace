@@ -8,7 +8,7 @@ use core::prelude::rust_2024::derive;
 
 #[derive(Clone)]
 #[repr(align(8))]
-pub struct UntypedMemoryManager {
+pub struct UntypedManager {
     pub untyped: SlotRegion, /* untyped-object caps (untyped caps) */
     pub untyped_list: [UntypedDesc; CONFIG_MAX_NUM_BOOTINFO_UNTYPED_CAPS],
 }
@@ -22,9 +22,9 @@ pub struct UntypedMemoryManager {
 //     }
 // }
 
-impl UntypedMemoryManager {
-    pub fn new(boot_info: &BootInfo) -> UntypedMemoryManager {
-        UntypedMemoryManager {
+impl UntypedManager {
+    pub fn new(boot_info: &BootInfo) -> UntypedManager {
+        UntypedManager {
             untyped: boot_info.untyped.clone(),
             untyped_list: boot_info.untyped_list.clone(),
         }

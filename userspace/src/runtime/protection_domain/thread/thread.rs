@@ -5,9 +5,7 @@ use crate::runtime::kernel::constants::MSG_MAX_LENGTH;
 use crate::runtime::kernel::MessageInfo;
 use crate::runtime::kernel::{IPCBuffer, Kernel};
 use crate::runtime::protection_domain::ProtectionDomain;
-use crate::runtime::va_space::VASpaceManager;
-use core::ascii::Char;
-use core::ptr::null_mut;
+
 
 pub struct Thread<K: Kernel> {
     pub id: ThreadId,
@@ -94,7 +92,7 @@ impl<K: Kernel> Thread<K> {
         }
 
         unsafe {
-            let mut dest = (*self.ipc_buffer).msg.as_mut_ptr() as *mut u8;
+            let dest = (*self.ipc_buffer).msg.as_mut_ptr() as *mut u8;
             core::ptr::copy(name_ascii_array.as_ptr(), dest, name_ascii_array.len());
         }
 
@@ -215,10 +213,10 @@ impl<K: Kernel> Thread<K> {
     }
 
     pub fn reply(&mut self, msg_info: &MessageInfo) {
-        let mut msg0: usize = unsafe { (*self.ipc_buffer).msg[0] };
-        let mut msg1: usize = unsafe { (*self.ipc_buffer).msg[1] };
-        let mut msg2: usize = unsafe { (*self.ipc_buffer).msg[2] };
-        let mut msg3: usize = unsafe { (*self.ipc_buffer).msg[2] };
+        let msg0: usize = unsafe { (*self.ipc_buffer).msg[0] };
+        let msg1: usize = unsafe { (*self.ipc_buffer).msg[1] };
+        let msg2: usize = unsafe { (*self.ipc_buffer).msg[2] };
+        let msg3: usize = unsafe { (*self.ipc_buffer).msg[2] };
 
         let kernel = self.pd.kernel();
         kernel.sys_reply(

@@ -58,7 +58,7 @@ impl<K: Kernel> ProtectionDomainInner<K> {
         va_space_manager: VASpaceManager,
         thread_id_manager: ThreadIdManager,
     ) -> ProtectionDomainInner<K> {
-        let mut pd = ProtectionDomainInner {
+        let pd = ProtectionDomainInner {
             id,
             kernel,
             thread: Array::default(),

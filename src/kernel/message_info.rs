@@ -8,7 +8,7 @@ use sel4_us::runtime::kernel::MessageInfo;
 //     field length 7
 // }
 impl From<seL4_MessageInfo> for MessageInfo {
-    fn from(mut value: seL4_MessageInfo) -> Self {
+    fn from(value: seL4_MessageInfo) -> Self {
         let mut content = value.words[0];
 
         let length = (content & 0x7F) as u8;

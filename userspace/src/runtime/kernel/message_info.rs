@@ -14,7 +14,7 @@ pub struct MessageInfo {
 //     field length 7
 // }
 impl From<usize> for MessageInfo {
-    fn from(mut value: usize) -> Self {
+    fn from(value: usize) -> Self {
         let mut content = value;
 
         let length = (content & 0x7F) as u8;

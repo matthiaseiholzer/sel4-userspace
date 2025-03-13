@@ -7,11 +7,11 @@ use crate::runtime::va_space::page::Attributes;
 use crate::runtime::va_space::VASpaceManager;
 use crate::servers::root_server::untyped_memory_manager::UntypedMemoryManager;
 use core::default::Default;
-use core::mem::size_of;
-use core::ptr::{self, null_mut};
+use core::ptr;
+
 
 pub fn create_pd<K: Kernel>(
-    mut kernel: K,
+    kernel: K,
     boot_info: &BootInfo,
     mut untyped_memory_manager: UntypedMemoryManager,
     cap_space_root_idx: CapAddr,
@@ -209,7 +209,7 @@ pub fn create_pd<K: Kernel>(
         0,
     );
 
-    let user_image_frames = &boot_info.userImageFrames;
+    let user_image_frames = &boot_info.user_image_frames;
 
     for i in user_image_frames.start..user_image_frames.end {
         let idx_l2 = i - user_image_frames.start;

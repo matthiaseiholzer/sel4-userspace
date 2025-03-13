@@ -1,6 +1,5 @@
 use core::default::Default;
 use core::fmt;
-use core::mem::MaybeUninit;
 use core::ops::Index;
 use core::ops::{Deref, DerefMut};
 use core::panic;
@@ -16,11 +15,9 @@ pub struct ArrayString<const C: usize> {
 
 impl<const C: usize> Default for ArrayString<C> {
     fn default() -> Self {
-        unsafe {
-            ArrayString {
-                data: [0; C],
-                len: 0,
-            }
+        ArrayString {
+            data: [0; C],
+            len: 0,
         }
     }
 }

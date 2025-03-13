@@ -9,8 +9,6 @@ use crate::runtime::va_space::VASpaceManager;
 use crate::servers::root_server::untyped_memory_manager::UntypedMemoryManager;
 use core::default::Default;
 use core::mem::offset_of;
-use core::mem::size_of;
-use core::ptr;
 
 pub fn create_pd<K: Kernel>(
     mut kernel: K,

@@ -1,4 +1,3 @@
-use crate::runtime::cap_space::CapAddr;
 use crate::runtime::cap_space::CapSpaceManager;
 use crate::runtime::kernel::IPCBuffer;
 use crate::runtime::kernel::Kernel;

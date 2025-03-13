@@ -2,15 +2,15 @@ use crate::runtime::cap_space::cap_rights::CapRights;
 use crate::runtime::cap_space::{CapInit, CapSpaceManager};
 use crate::servers::reincarnation_server::reincarnation_server;
 use crate::servers::untyped_server::untyped_server;
-use crate::servers::root_server::{create_reincarnation_server, untyped_memory_manager};
 use crate::{
-    print_str,
     runtime::{
         cap_space::CapAddr,
         kernel::{BootInfo, Kernel},
     },
-    servers::root_server::{create_pd::create_pd, untyped_memory_manager::UntypedMemoryManager},
+    servers::root_server::untyped_memory_manager::UntypedMemoryManager,
 };
+use crate::servers::root_server::create_pd::create_pd;
+
 
 pub fn root_server<K: Kernel>(
     kernel: K,
@@ -31,10 +31,8 @@ pub fn root_server<K: Kernel>(
     );
 
     loop {
-        for i in 0..40_000_000 {}
-        //print_str!(thread, "Cap Type: {:?}\n", cap_type);
+        for _ in 0..40_000_000 {}
         kernel.dump_scheduler();
-        //let _ = kernel.suspend(CapAddr::from_const(CapInit::InitThreadTCB as usize));
     }
     
 }
