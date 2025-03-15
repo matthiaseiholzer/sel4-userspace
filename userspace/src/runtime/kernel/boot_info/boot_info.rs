@@ -9,23 +9,23 @@ use core::result::Result;
 
 #[derive(Clone)]
 pub struct BootInfo {
-    pub extra_len: usize,           /* length of any additional bootinfo information */
-    pub node_id: usize,             /* ID [0..numNodes-1] of the seL4 node (0 if uniprocessor) */
-    pub num_nodes: usize,           /* number of seL4 nodes (1 if uniprocessor) */
-    pub num_iopt_levels: usize,      /* number of IOMMU PT levels (0 if no IOMMU support) */
+    pub extra_len: usize,       /* length of any additional bootinfo information */
+    pub node_id: usize,         /* ID [0..numNodes-1] of the seL4 node (0 if uniprocessor) */
+    pub num_nodes: usize,       /* number of seL4 nodes (1 if uniprocessor) */
+    pub num_iopt_levels: usize, /* number of IOMMU PT levels (0 if no IOMMU support) */
     pub ipc_buffer: *mut IPCBuffer, /* pointer to initial thread's IPC buffer */
-    pub empty: SlotRegion,         /* empty slots (null caps) */
-    pub shared_frames: SlotRegion,  /* shared-frame caps (shared between seL4 nodes) */
+    pub empty: SlotRegion,      /* empty slots (null caps) */
+    pub shared_frames: SlotRegion, /* shared-frame caps (shared between seL4 nodes) */
     pub user_image_frames: SlotRegion, /* userland-image frame caps */
     pub user_image_paging: SlotRegion, /* userland-image paging structure caps */
-    pub io_space_caps: SlotRegion,   /* IOSpace caps for ARM SMMU */
+    pub io_space_caps: SlotRegion, /* IOSpace caps for ARM SMMU */
     pub extra_bi_pages: SlotRegion, /* caps for any pages used to back the additional bootinfo information */
     pub init_thread_cnode_size_bits: usize, /* initial thread's root CNode size (2^n slots) */
     pub init_thread_domain: usize,  /* Initial thread's domain ID */
-    pub untyped: SlotRegion,      /* untyped-object caps (untyped caps) */
+    pub untyped: SlotRegion,        /* untyped-object caps (untyped caps) */
     pub untyped_list: [UntypedDesc; CONFIG_MAX_NUM_BOOTINFO_UNTYPED_CAPS], /* information about each untyped */
-                                                                          /* the untypedList should be the last entry in this struct, in order
-                                                                           * to make this struct easier to represent in other languages */
+                                                                           /* the untypedList should be the last entry in this struct, in order
+                                                                            * to make this struct easier to represent in other languages */
 }
 
 impl Debug for BootInfo {

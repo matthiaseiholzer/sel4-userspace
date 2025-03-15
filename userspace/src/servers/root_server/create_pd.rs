@@ -9,7 +9,6 @@ use crate::servers::root_server::untyped_memory_manager::UntypedMemoryManager;
 use core::default::Default;
 use core::ptr;
 
-
 pub fn create_pd<K: Kernel>(
     kernel: K,
     boot_info: &BootInfo,

@@ -1,5 +1,4 @@
-use super::
-    constants::{MSG_MAX_EXTRA_CAPS, MSG_MAX_LENGTH};
+use super::constants::{MSG_MAX_EXTRA_CAPS, MSG_MAX_LENGTH};
 
 #[repr(C, align(4096))]
 pub struct IPCBuffer {

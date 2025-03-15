@@ -10,7 +10,7 @@ pub extern "C" fn main() -> ! {
 
     let sel4_boot_info = unsafe { *sel4runtime_bootinfo() }.clone();
     let boot_info = BootInfo::from(sel4_boot_info.clone());
-    
+
     let untyped_memory_manager = UntypedMemoryManager::new(&sel4_boot_info.clone().into());
 
     let _ = root_server(KERNEL, &boot_info, untyped_memory_manager);

@@ -6,7 +6,6 @@ use crate::runtime::kernel::MessageInfo;
 use crate::runtime::kernel::{IPCBuffer, Kernel};
 use crate::runtime::protection_domain::ProtectionDomain;
 
-
 pub struct Thread<K: Kernel> {
     pub id: ThreadId,
     pub pd: ProtectionDomain<K>,

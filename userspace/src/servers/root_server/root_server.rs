@@ -1,6 +1,7 @@
 use crate::runtime::cap_space::cap_rights::CapRights;
 use crate::runtime::cap_space::{CapInit, CapSpaceManager};
 use crate::servers::reincarnation_server::reincarnation_server;
+use crate::servers::root_server::create_pd::create_pd;
 use crate::servers::untyped_server::untyped_server;
 use crate::{
     runtime::{
@@ -9,32 +10,20 @@ use crate::{
     },
     servers::root_server::untyped_memory_manager::UntypedMemoryManager,
 };
-use crate::servers::root_server::create_pd::create_pd;
-
 
 pub fn root_server<K: Kernel>(
     kernel: K,
     boot_info: &BootInfo,
     untyped_memory_manager: UntypedMemoryManager,
 ) -> ! {
-    
-    create_reincarnation_srv_pd(
-        kernel.clone(),
-        boot_info,
-        untyped_memory_manager.clone(),
-    );
-    
-    create_untyped_srv_pd(
-        kernel.clone(),
-        boot_info,
-        untyped_memory_manager,
-    );
+    create_reincarnation_srv_pd(kernel.clone(), boot_info, untyped_memory_manager.clone());
+
+    create_untyped_srv_pd(kernel.clone(), boot_info, untyped_memory_manager);
 
     loop {
         for _ in 0..40_000_000 {}
         kernel.dump_scheduler();
     }
-    
 }
 
 fn create_reincarnation_srv_pd<K: Kernel>(
@@ -88,7 +77,7 @@ fn create_reincarnation_srv_pd<K: Kernel>(
         let _ = kernel.resume(tcb_cap_idx);
     }
 }
-    
+
 fn create_untyped_srv_pd<K: Kernel>(
     kernel: K,
     boot_info: &BootInfo,
@@ -140,4 +129,3 @@ fn create_untyped_srv_pd<K: Kernel>(
         let _ = kernel.resume(tcb_cap_idx);
     }
 }
-
