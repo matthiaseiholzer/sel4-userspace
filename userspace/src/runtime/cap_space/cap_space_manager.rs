@@ -60,10 +60,8 @@ impl CapSpaceManager {
     // Protection Domain
     pub const C_PD_0_OFFSET: usize = 2 * VASpaceManager::PD_L0_OFFSET;
     pub const C_V_PD_0_OFFSET: usize = Self::C_PD_0_OFFSET + 1;
-
     pub const C_PD_1_OFFSET: usize = 2 * VASpaceManager::PD_L1_OFFSET;
     pub const C_V_PD_1_OFFSET: usize = Self::C_PD_1_OFFSET + 1;
-
     pub const C_V_PD_2_OFFSET: usize = VASpaceManager::PD_L2_OFFSET;
 
     // Main Thread
@@ -106,6 +104,7 @@ impl CapSpaceManager {
         CapSpaceManager::C_V_MT_EP_2_OFFSET,
         64,
     );
+    
     pub const C_MT_EP_0_OFFSET: usize = 2 * VASpaceManager::MT_EP_L0_OFFSET;
     pub const C_V_MT_EP_0_OFFSET: usize = Self::C_MT_EP_0_OFFSET + 1;
     pub const C_MT_EP_1_OFFSET: usize = 2 * VASpaceManager::MT_EP_L1_OFFSET;

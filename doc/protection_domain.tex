@@ -15,8 +15,8 @@ The lower part is the user space. The upper part is the kernel space.
 The user space begins at address $us_b = 0$ and ends at address $us_e$. $us_e$ is defined
 by $seL4$. For example: For RISC-V 64 it is define as $0x0000003ffffff000$.
 
-% \begin{figure}[ht]
-%     \centering
+\begin{figure}[ht]
+    \centering
     \begin{tikzpicture}
         \tikzstyle{help lines}+=[dashed]
         \draw[style=help lines] (0,0) grid +(1,12);
@@ -33,9 +33,9 @@ by $seL4$. For example: For RISC-V 64 it is define as $0x0000003ffffff000$.
         \draw[snake=brace] (ks_b) -- (ks_e);
         \node () [rotate=90] at (-1.0, 10.0) {Kernel space};
     \end{tikzpicture}
-%     \caption{Virtual address space in protection domain}
-%     \label{fig:vas}
-% \end{figure}
+    \caption{Virtual address space in protection domain}
+    \label{fig:vas}
+\end{figure}
 
 \paragraph{Kernel space}
 Kernel space is managed by the seL4 kernel and can not be accessed by the user space program.
@@ -43,35 +43,64 @@ Kernel space is managed by the seL4 kernel and can not be accessed by the user s
 \paragraph{User space}
 The user space is managed by the user space application by calling kernel functions.
 
-\begin{tikzpicture}
-    \tikzstyle{help lines}+=[dashed]
+\begin{figure}
+    \centering
+    \begin{tikzpicture}
+        \tikzstyle{help lines}+=[dashed]
+    
+        \draw[style=help lines] (0,0) grid +(1,20);
+        \node (u_b) at (-0.5, 0.0) {0};
+        \node (u_e) at (0.5, 2.5) {...};
+        \node (u_e) at (-0.5, 5.0) {};
+        \draw[snake=brace] (u_b) -- (u_e);
+        \node () [rotate=90] at (-1.0, 2.4) {thread independant};
+    
+        \node (thread_0_b) at (2.0, 13.0) {};
+        \node (thread_0_e) at (2.0, 17.0) {$t_{0_e}$};
+        \node (thread_0_m) at (3.5, 15.0) {space thread 0};
+        \draw[snake=brace] (thread_0_e) -- (thread_0_b);
+    
+        \node (thread_1_b) at (2.0, 9.0) {};
+        \node (thread_1_e) at (2.0, 13.0) {$t_{1_e} = t_{0_b}$};
+        \node (thread_1_m) at (3.5, 11.0) {space thread 1};
+        \draw[snake=brace] (thread_1_e) -- (thread_1_b);
+    
+        \node (thread_n_b) at (2.0, 5.0) {$t_{n_b}$};
+        \node (thread_n_e) at (2.0, 9.0) {$t_{n_e}$ };
+        \node (thread_n_m) at (3.5, 7.0) {space thread n};
+        \draw[snake=brace] (thread_n_e) -- (thread_n_b);
+        
+        \node (pd_b) at (2.0, 17.0) {};
+        \node (pd_e) at (2.0, 20.0) {};
+        \node (pd_m) at (3.5, 18.5) {protection domain};
+        \draw[snake=brace] (pd_e) -- (pd_b);
+        
+    \end{tikzpicture}
+    \caption{userspace}
+    \label{fig:userspace}
+\end{figure}
 
-    \draw[style=help lines] (0,0) grid +(1,20);
-    \node (u_b) at (-0.5, 0.0) {0};
-    \node (u_e) at (-0.5, 5.0) {};
-    \draw[snake=brace] (u_b) -- (u_e);
-    \node () [rotate=90] at (-1.0, 2.4) {thread independant};
+The protection domain specific part contains the data, which is shared by all threads, and is not executable code.
+\begin{figure}
+    \centering
+    \begin{tikzpicture}
+        \tikzstyle{help lines}+=[dashed]
 
-    \node (heap_b) at (2.0, 5.0) {};
-    \node (heap_e) at (2.0, 8.0) {};
-    \node (heap_m) at (3.5, 6.5) {heap};
-    \draw[snake=brace] (heap_e) -- (heap_b);
+        \draw[style=help lines] (0,0) grid +(10,1);
+        \node (u_b) at (0.2, 1.2) {$t_{n_b}$};
+        \node (u_e) at (1.2, 1.2) {$t_{n_b}$};
+        \node () at (0.5, 0.5) {TCB};
+        \node () at (1.5, 0.5) {IPC};
 
-    \node (thread_0_b) at (2.0, 16.0) {};
-    \node (thread_0_e) at (2.0, 20.0) {$t_{0_e}$};
-    \node (thread_0_m) at (3.5, 18.0) {space thread 0};
-    \draw[snake=brace] (thread_0_e) -- (thread_0_b);
+        \node (thread_n_b) at (2.2, 1.2) {$t_{n_b}$};
+        \node (thread_n_e) at (10.2, 1.2) {$t_{n_e}$ };
+        \node () at (6.0, 1.5) {Stack};
+        \draw[snake=brace] (thread_n_b) -- (thread_n_e);
+    \end{tikzpicture}
+    \caption{Virtual address space structure for each thread}
+    \label{fig:userspace_pd}
+\end{figure}
 
-    \node (thread_1_b) at (2.0, 12.0) {};
-    \node (thread_1_e) at (2.0, 16.0) {$t_{1_e} = t_{0_b}$};
-    \node (thread_1_m) at (3.5, 14.0) {space thread 1};
-    \draw[snake=brace] (thread_1_e) -- (thread_1_b);
-
-    \node (thread_n_b) at (2.0, 8.0) {$t_{n_b}$};
-    \node (thread_n_e) at (2.0, 12.0) {$t_{n_e}$ };
-    \node (thread_n_m) at (3.5, 10.0) {space thread n};
-    \draw[snake=brace] (thread_n_e) -- (thread_n_b);
-\end{tikzpicture}
 The space size $s_{max}$ is for every thread the same.
 $s_{max} = 512$ pages. the page size $s_p  = 4096$ bytes.
 \begin{equation}
@@ -99,9 +128,8 @@ The beginnng of the stack of thread $n$ is defined as
 The address space from $s_{b_n}$ to $s_{b_n} + s_p - 1$ is not usable, as it is used
 as stack protection.
 
-
 \begin{figure}
-    \label{fig:thread_space}
+    \centering
     \begin{tikzpicture}
         \tikzstyle{help lines}+=[dashed]
 
@@ -116,6 +144,8 @@ as stack protection.
         \node () at (6.0, 1.5) {Stack};
         \draw[snake=brace] (thread_n_b) -- (thread_n_e);
     \end{tikzpicture}
+    \caption{Virtual address space structure for each thread}
+    \label{fig:thread_space}
 \end{figure}
 
 TCB: Is only virtually mapped.
@@ -124,7 +154,6 @@ page would be stored.
 
 IPC: 
 
-
 \paragraph{RISCV SV39}
 Virtual address
 
@@ -132,46 +161,48 @@ Virtual address
 Every level $2^9$ entries and translate 9 bits.
 Page size: $2^12$ bytes
 
-\begin{tikzpicture}
-    \tikzstyle{help lines}+=[dashed]
-
-    \draw[style=help lines] (0,0) grid +(5,1);
-    \node(n_0_b) at (0.5, 0.5) {};
-    \node() at (-0.5, 0.5) {v};
-    \node () at (0.5, 0.5) {$v_{0}$};
-    \node() at (2.5, 0.5) {$v_i$};
-    \node () at (4.5, 0.5) {$v_{511}$};
-
-    \node(n_0_e) at (-2.5, -2.5) {};
-    \draw [->] (n_0_b) -- (n_0_e);
-
-    \draw[style=help lines] (-3, -3) grid +(5,1);
-    \node(n_00_b) at (-2.5, -2.5) {};
-    \node(n_00_e) at (-4.5, -5.5) {};
-    \node() at (-3.5, -2.5) {$v_{0}$};
-    \node () at (-2.5, -2.5) {$v_{00}$};
-    \node () at (-0.6, -2.5) {$v_{ij}$}; 
-    \node () at (1.5, -2.5) {$v_{0511}$};
-    \draw [->] (n_00_b) -- (n_00_e);
-
-    \draw[style=help lines] (3, -3) grid +(5,1);
-
-    \draw[style=help lines] (-5, -6) grid +(5,1);
-    \node () at (-4.5, -5.5) {$v_{000}$};
-    \node () at (-2.5, -5.5) {$v_{ijk}$};
-    \node () at (-0.5, -5.5) {$v_{00511}$};
-
-    \draw[style=help lines] (5, -6) grid +(5,1);
-
-    \draw[style=help lines] (-5, -9) grid +(14, 1);
-    \node(p_0) at (-4.8, -7.8) {0};
-    \node(p_1) at (-3.8, -7.8) {4096};
-    \node(p_3) at (-2.8, -7.8) {8192};
-
-\end{tikzpicture}
-
-
-
+\begin{figure}
+    \centering
+    \begin{tikzpicture}
+        \tikzstyle{help lines}+=[dashed]
+    
+        \draw[style=help lines] (0,0) grid +(5,1);
+        \node(n_0_b) at (0.5, 0.5) {};
+        \node() at (-0.5, 0.5) {v};
+        \node () at (0.5, 0.5) {$v_{0}$};
+        \node() at (2.5, 0.5) {$v_i$};
+        \node () at (4.5, 0.5) {$v_{511}$};
+    
+        \node(n_0_e) at (-2.5, -2.5) {};
+        \draw [->] (n_0_b) -- (n_0_e);
+    
+        \draw[style=help lines] (-3, -3) grid +(5,1);
+        \node(n_00_b) at (-2.5, -2.5) {};
+        \node(n_00_e) at (-4.5, -5.5) {};
+        \node() at (-3.5, -2.5) {$v_{0}$};
+        \node () at (-2.5, -2.5) {$v_{00}$};
+        \node () at (-0.6, -2.5) {$v_{ij}$}; 
+        \node () at (1.5, -2.5) {$v_{0511}$};
+        \draw [->] (n_00_b) -- (n_00_e);
+    
+        \draw[style=help lines] (3, -3) grid +(5,1);
+    
+        \draw[style=help lines] (-5, -6) grid +(5,1);
+        \node () at (-4.5, -5.5) {$v_{000}$};
+        \node () at (-2.5, -5.5) {$v_{ijk}$};
+        \node () at (-0.5, -5.5) {$v_{00511}$};
+    
+        \draw[style=help lines] (5, -6) grid +(5,1);
+    
+        \draw[style=help lines] (-5, -9) grid +(14, 1);
+        \node(p_0) at (-4.8, -7.8) {0};
+        \node(p_1) at (-3.8, -7.8) {4096};
+        \node(p_3) at (-2.8, -7.8) {8192};
+    
+    \end{tikzpicture}
+    \caption{Virtual address space structure of RISCV SV39}
+    \label{fig:vas_riscvsv39}
+\end{figure}
 
 \subsubsection{Capability space(CSpace)}
 Each protection domain has its own capability space, which is a data structure that holds all capabilities that a PD has access to.
@@ -179,8 +210,10 @@ A PDs is not able to access anything unless it is explicitly allow to do it. Thi
 If a PD does not have the capability to some resource, seL4 does not allow it to use it.
 
 \begin{figure}
+    \centering
     \includegraphics[scale=0.5]{./figures/seL4_cap_space_addresssing.png}
-    \label{asdfasd}
+    \caption{seL4 capability space addressing}
+    \label{fig:sel4_cap_space_addressing}
 \end{figure}
 
 "A capability address is stored in a CPointer (abbreviated CPtr), which is an unsigned integer
@@ -229,22 +262,26 @@ In summary, to refer to any capability (or slot) in a CSpace, the user must supp
 When the capability might be a CNode, the user must also supply a depth limit. To specify a
 range of capability slots, the user supplies a starting address and a window size.\cite{seL4:2024}" 
 
-
 $4096 / 32 = 128$
 
-\begin{tikzpicture}
-    \tikzstyle{help lines}+=[dashed]
-
-    \draw[style=help lines] (0,0) grid +(10,1);
-
-    \node(n_0_b) at (0.5, 0.5) {};
-    \node () at (0.2, 1.2) {0};
-    \node() at (9.2, 1.2) {127};
-
-    \node(c_0) at (2.5, 0.5) {$c_{0}$};
-    \node() at (3.5, 0.5) {$c_{v}$};
+\begin{figure}
+    \centering
+    \begin{tikzpicture}
+        \tikzstyle{help lines}+=[dashed]
     
-\end{tikzpicture}
+        \draw[style=help lines] (0,0) grid +(10,1);
+    
+        \node(n_0_b) at (0.5, 0.5) {};
+        \node () at (0.2, 1.2) {0};
+        \node() at (9.2, 1.2) {127};
+    
+        \node(c_0) at (2.5, 0.5) {$c_{0}$};
+        \node() at (3.5, 0.5) {$c_{v}$};
+        
+    \end{tikzpicture}
+    \caption{}
+    \label{fig:sdfsdfg}
+\end{figure}
 
 
 Every PD maintains its own cap space
