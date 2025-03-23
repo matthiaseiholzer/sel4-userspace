@@ -1,5 +1,5 @@
-use crate::runtime::ipc::SerDe;
 use super::ProtectionDomainId;
+use crate::runtime::ipc::SerDe;
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum Message {

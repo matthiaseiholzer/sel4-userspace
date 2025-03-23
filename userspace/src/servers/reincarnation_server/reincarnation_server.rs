@@ -22,11 +22,11 @@ pub fn reincarnation_server<K: Kernel>(thread: &mut Thread<K>, _boot_info: &Boot
         let message_req = UntypedServerMessage::AllocReq(1);
         let msg_info_req = thread.ipc_buffer.write_message(&message_req);
         print_str!(thread, "Request {:?}\n", message_req);
-        
+
         let _ = thread.call(ENDPOINT, &msg_info_req);
-        
+
         let msg_info_resp = MessageInfo::default();
-        let message_resp: Message  = thread.ipc_buffer.read_message(&msg_info_resp);
+        let message_resp: Message = thread.ipc_buffer.read_message(&msg_info_resp);
         print_str!(thread, "Response {:?}\n", message_resp);
     }
 }

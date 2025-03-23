@@ -1,4 +1,4 @@
-use super::{IpcBuffer, Id};
+use super::{Id, IpcBuffer};
 use crate::runtime::cap_space::cap::CapType;
 use crate::runtime::cap_space::CapAddr;
 use crate::runtime::kernel::constants::MSG_MAX_LENGTH;
@@ -11,7 +11,7 @@ pub struct Thread<K: Kernel> {
     pub pd: ProtectionDomain<K>,
     pub priority: u8,
     tcb: CapAddr,
-    pub ipc_buffer: IpcBuffer
+    pub ipc_buffer: IpcBuffer,
 }
 
 impl<K: Kernel> Thread<K> {}

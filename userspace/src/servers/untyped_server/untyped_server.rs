@@ -14,9 +14,9 @@ pub fn untyped_server<K: Kernel>(thread: &mut Thread<K>, _boot_info: &BootInfo) 
 
         let mut sender: usize = 0;
         thread.receive(CapSpaceManager::C_MT_EP, &mut sender);
-        
+
         let msg_info = MessageInfo::default();
-        
+
         let message_read: Message = thread.ipc_buffer.read_message(&msg_info);
 
         print_str!(thread, "{:?}\n", message_read);
