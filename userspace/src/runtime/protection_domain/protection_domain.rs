@@ -1,4 +1,4 @@
-use super::thread::{Thread, ThreadBuilder, ThreadId, ThreadIdManager};
+use super::thread::{Thread, ThreadBuilder, Id as ThreadId, ThreadIdManager};
 use crate::runtime::protection_domain::Id;
 use crate::runtime::{
     cap_space::{CapAddr, CapSpaceManager},

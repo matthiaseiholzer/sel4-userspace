@@ -1,6 +1,6 @@
 use core::mem::size_of;
 
-use super::ThreadId;
+use super::Id;
 
 pub struct ThreadIdManager {
     pub threads_used: [usize; Self::NUM_USIZE],
@@ -21,7 +21,7 @@ impl Default for ThreadIdManager {
 }
 
 impl ThreadIdManager {
-    pub fn alloc_id(&mut self) -> Result<ThreadId, ()> {
+    pub fn alloc_id(&mut self) -> Result<Id, ()> {
         for i in 0..Self::NUM_USIZE {
             if self.threads_used[i] != !0 {
                 for j in 0..Self::BITS_USIZE {
@@ -29,7 +29,7 @@ impl ThreadIdManager {
                     if bit_v == 0 {
                         let bit = (i * Self::BITS_USIZE + j) as u16;
                         self.set_bit(bit, true);
-                        return Ok(bit as ThreadId);
+                        return Ok(bit as Id);
                     }
                 }
             }
@@ -38,7 +38,7 @@ impl ThreadIdManager {
         Err(())
     }
 
-    pub fn free_id(&mut self, id: ThreadId) {
+    pub fn free_id(&mut self, id: Id) {
         self.set_bit(id, false);
     }
 

@@ -1,4 +1,4 @@
-use super::ThreadId;
+use super::{IpcBuffer, Id};
 use crate::runtime::cap_space::cap::CapType;
 use crate::runtime::cap_space::CapAddr;
 use crate::runtime::kernel::constants::MSG_MAX_LENGTH;
@@ -7,19 +7,18 @@ use crate::runtime::kernel::{IPCBuffer, Kernel};
 use crate::runtime::protection_domain::ProtectionDomain;
 
 pub struct Thread<K: Kernel> {
-    pub id: ThreadId,
+    pub id: Id,
     pub pd: ProtectionDomain<K>,
     pub priority: u8,
     tcb: CapAddr,
-    pub ipc_buffer: *mut IPCBuffer,
-    //pub ipc_buber: IpcBuffer
+    pub ipc_buffer: IpcBuffer
 }
 
 impl<K: Kernel> Thread<K> {}
 
 impl<K: Kernel> Thread<K> {
     pub fn new(
-        id: ThreadId,
+        id: Id,
         tcb: CapAddr,
         pd: ProtectionDomain<K>,
         ipc_buffer: *mut IPCBuffer,
@@ -28,8 +27,8 @@ impl<K: Kernel> Thread<K> {
             id,
             pd,
             priority: 255,
-            tcb: tcb,
-            ipc_buffer,
+            tcb,
+            ipc_buffer: IpcBuffer::new(ipc_buffer),
         }
     }
 
@@ -92,7 +91,7 @@ impl<K: Kernel> Thread<K> {
         }
 
         unsafe {
-            let dest = (*self.ipc_buffer).msg.as_mut_ptr() as *mut u8;
+            let dest = (*self.ipc_buffer.ipc_buffer).msg.as_mut_ptr() as *mut u8;
             core::ptr::copy(name_ascii_array.as_ptr(), dest, name_ascii_array.len());
         }
 
@@ -166,10 +165,10 @@ impl<K: Kernel> Thread<K> {
         );
 
         unsafe {
-            (*self.ipc_buffer).msg[0] = msg0;
-            (*self.ipc_buffer).msg[1] = msg1;
-            (*self.ipc_buffer).msg[2] = msg2;
-            (*self.ipc_buffer).msg[3] = msg3;
+            (*self.ipc_buffer.ipc_buffer).msg[0] = msg0;
+            (*self.ipc_buffer.ipc_buffer).msg[1] = msg1;
+            (*self.ipc_buffer.ipc_buffer).msg[2] = msg2;
+            (*self.ipc_buffer.ipc_buffer).msg[3] = msg3;
         }
 
         /* Return back sender and message information. */
@@ -183,10 +182,10 @@ impl<K: Kernel> Thread<K> {
     }
 
     pub fn call(&mut self, dest: CapAddr, msg_info: &MessageInfo) -> MessageInfo {
-        let mut msg0: usize = unsafe { (*self.ipc_buffer).msg[0] };
-        let mut msg1: usize = unsafe { (*self.ipc_buffer).msg[1] };
-        let mut msg2: usize = unsafe { (*self.ipc_buffer).msg[2] };
-        let mut msg3: usize = unsafe { (*self.ipc_buffer).msg[3] };
+        let mut msg0: usize = unsafe { (*self.ipc_buffer.ipc_buffer).msg[0] };
+        let mut msg1: usize = unsafe { (*self.ipc_buffer.ipc_buffer).msg[1] };
+        let mut msg2: usize = unsafe { (*self.ipc_buffer.ipc_buffer).msg[2] };
+        let mut msg3: usize = unsafe { (*self.ipc_buffer.ipc_buffer).msg[3] };
         let mut info: usize = 0;
         let kernel = self.pd.kernel();
         let mut dst: usize = dest.addr;
@@ -204,19 +203,19 @@ impl<K: Kernel> Thread<K> {
         );
 
         unsafe {
-            (*self.ipc_buffer).msg[0] = msg0;
-            (*self.ipc_buffer).msg[1] = msg1;
-            (*self.ipc_buffer).msg[2] = msg2;
-            (*self.ipc_buffer).msg[3] = msg3;
+            (*self.ipc_buffer.ipc_buffer).msg[0] = msg0;
+            (*self.ipc_buffer.ipc_buffer).msg[1] = msg1;
+            (*self.ipc_buffer.ipc_buffer).msg[2] = msg2;
+            (*self.ipc_buffer.ipc_buffer).msg[3] = msg3;
         }
         return MessageInfo::from(info);
     }
 
     pub fn reply(&mut self, msg_info: &MessageInfo) {
-        let msg0: usize = unsafe { (*self.ipc_buffer).msg[0] };
-        let msg1: usize = unsafe { (*self.ipc_buffer).msg[1] };
-        let msg2: usize = unsafe { (*self.ipc_buffer).msg[2] };
-        let msg3: usize = unsafe { (*self.ipc_buffer).msg[2] };
+        let msg0: usize = unsafe { (*self.ipc_buffer.ipc_buffer).msg[0] };
+        let msg1: usize = unsafe { (*self.ipc_buffer.ipc_buffer).msg[1] };
+        let msg2: usize = unsafe { (*self.ipc_buffer.ipc_buffer).msg[2] };
+        let msg3: usize = unsafe { (*self.ipc_buffer.ipc_buffer).msg[2] };
 
         let kernel = self.pd.kernel();
         kernel.sys_reply(
