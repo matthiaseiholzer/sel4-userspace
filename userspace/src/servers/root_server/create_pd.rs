@@ -517,7 +517,7 @@ pub fn create_pd<K: Kernel>(
         CapSpaceManager::C_MT_IPC_BUFFER_1_OFFSET,
         CapSpaceManager::C_V_MT_IPC_BUFFER_2_OFFSET,
     );
-    
+
     {
         {
             let cap = CapSpaceManager::cap_addr_l01(
@@ -588,14 +588,14 @@ pub fn create_pd<K: Kernel>(
             root_server_cspace_root,
             c_t0,
         );
-        
+
         // Create endpoint
         {
             let ep_cap = CapSpaceManager::cap_addr_l01(
                 CapSpaceManager::C_MT_EP_0_OFFSET,
                 CapSpaceManager::C_MT_EP_1_OFFSET,
             );
-            
+
             let _ = kernel.retype(
                 untyped_cap,
                 UntypedType::EndpointObject,
@@ -606,19 +606,19 @@ pub fn create_pd<K: Kernel>(
                 CapSpaceManager::C_V_MT_EP_2_OFFSET,
                 1,
             );
-             
+
             let src_ep_cap = CapSpaceManager::cap_addr_l012(
                 CapSpaceManager::C_MT_EP_0_OFFSET,
                 CapSpaceManager::C_MT_EP_1_OFFSET,
-                CapSpaceManager::C_V_MT_EP_2_OFFSET
+                CapSpaceManager::C_V_MT_EP_2_OFFSET,
             );
-            
+
             let _ = kernel.copy(
                 root_server_cspace_root,
                 ep_space_idx,
                 reincarnation_server_cap_space_root,
                 src_ep_cap,
-                CapRights::default()
+                CapRights::default(),
             );
         }
     }
@@ -783,9 +783,6 @@ pub fn create_pd<K: Kernel>(
 
     // Create Main Thread Object
     const MAIN_THREAD_ADDRESS: usize = VASpaceManager::MT_ADDRESS;
-
-    // @TODO Correct this value
-    const MAIN_THREAD_TLS_ADDRES: usize = MAIN_THREAD_ADDRESS + 6;
     {
         {
             let cap = CapSpaceManager::cap_addr_l01(

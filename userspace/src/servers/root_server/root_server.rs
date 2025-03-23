@@ -47,31 +47,30 @@ pub fn root_server<K: Kernel>(
         untyped_tcb_cap_idx,
         untyped_ep_cap_idx,
     );
-    
+
     let src_ep_cap = CapSpaceManager::cap_addr_l012(
         CapSpaceManager::C_MT_EP_0_OFFSET,
         CapSpaceManager::C_MT_EP_1_OFFSET,
-        CapSpaceManager::C_V_MT_EP_2_OFFSET
+        CapSpaceManager::C_V_MT_EP_2_OFFSET,
     );
-    
+
     let dest_ep_cap = CapSpaceManager::cap_addr_l012(
         CapSpaceManager::C_MT_EP_0_OFFSET,
         CapSpaceManager::C_MT_EP_1_OFFSET,
-        CapSpaceManager::C_V_MT_EP_2_OFFSET + 1 
+        CapSpaceManager::C_V_MT_EP_2_OFFSET + 1,
     );
-    
+
     let _ = kernel.copy(
         reinc_space_idx,
         dest_ep_cap,
         untyped_space_idx,
         src_ep_cap,
-        CapRights::default()
+        CapRights::default(),
     );
 
     loop {
         for _ in 0..40_000_000 {}
         kernel.dump_scheduler();
-        
     }
 }
 
@@ -138,7 +137,6 @@ fn create_untyped_srv_pd<K: Kernel>(
     tcb_cap_idx: CapAddr,
     ep_cap_idx: CapAddr,
 ) {
-
     {
         create_pd(
             kernel.clone(),
@@ -177,7 +175,6 @@ fn create_untyped_srv_pd<K: Kernel>(
                     CapRights::default(),
                 );
             }
-            
         }
         let _ = kernel.resume(tcb_cap_idx);
     }

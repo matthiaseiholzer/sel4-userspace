@@ -12,6 +12,7 @@ pub struct Thread<K: Kernel> {
     pub priority: u8,
     tcb: CapAddr,
     pub ipc_buffer: *mut IPCBuffer,
+    //pub ipc_buber: IpcBuffer
 }
 
 impl<K: Kernel> Thread<K> {}
