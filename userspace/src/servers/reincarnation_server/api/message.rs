@@ -29,7 +29,7 @@ impl SerDe for Message {
                 return Result::Ok(Message::Req);
             }
             1 => {
-                return Result::Ok(Message::Req);
+                return Result::Ok(Message::Resp);
             }
 
             _ => {

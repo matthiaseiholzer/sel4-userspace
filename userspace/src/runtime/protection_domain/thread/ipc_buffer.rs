@@ -1,4 +1,5 @@
 use crate::runtime::{
+    cap_space::{CapAddr, CapSpaceManager},
     ipc::SerDe,
     kernel::{IPCBuffer, MessageInfo},
 };
@@ -37,5 +38,28 @@ impl IpcBuffer {
             )
         };
         T::deserialize(buffer).unwrap()
+    }
+
+    pub fn set_cap(&mut self, idx: u8, cap: CapAddr) -> MessageInfo {
+        let buffer: &mut [usize] = unsafe {
+            let ipc_buffer = &mut *self.ipc_buffer;
+            core::slice::from_raw_parts_mut(
+                ipc_buffer.caps_or_badges.as_ptr() as *mut usize,
+                IPCBuffer::MSG_MAX_LENGTH * size_of::<usize>(),
+            )
+        };
+
+        buffer[idx as usize] = cap.addr;
+
+        let mut msg_info = MessageInfo::default();
+        msg_info.extra_caps = 1;
+        msg_info
+    }
+
+    pub fn set_cap_receive_path(&mut self, cap: CapAddr) {
+        let ipc_buffer: &mut IPCBuffer = unsafe { &mut *self.ipc_buffer };
+        ipc_buffer.receive_cnode = CapSpaceManager::C_CSPACE_ROOT.addr;
+        ipc_buffer.receive_index = cap.addr;
+        ipc_buffer.receive_depth = cap.depth as usize;
     }
 }

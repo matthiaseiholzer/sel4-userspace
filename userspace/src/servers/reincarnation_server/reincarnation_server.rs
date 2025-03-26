@@ -2,7 +2,6 @@ use crate::print_str;
 use crate::runtime::cap_space::{CapAddr, CapSpaceManager};
 use crate::runtime::kernel::{BootInfo, Kernel, MessageInfo};
 use crate::runtime::protection_domain::thread::Thread;
-use crate::servers::pd_manager::api::Message;
 use crate::servers::untyped_server::api::Message as UntypedServerMessage;
 
 pub const ENDPOINT: CapAddr = CapSpaceManager::new(
@@ -26,7 +25,7 @@ pub fn reincarnation_server<K: Kernel>(thread: &mut Thread<K>, _boot_info: &Boot
         let _ = thread.call(ENDPOINT, &msg_info_req);
 
         let msg_info_resp = MessageInfo::default();
-        let message_resp: Message = thread.ipc_buffer.read_message(&msg_info_resp);
+        let message_resp: UntypedServerMessage = thread.ipc_buffer.read_message(&msg_info_resp);
         print_str!(thread, "Response {:?}\n", message_resp);
     }
 }

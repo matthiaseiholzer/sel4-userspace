@@ -13,7 +13,7 @@ pub struct UntypedManager {
     pub untyped_list: [UntypedDesc; CONFIG_MAX_NUM_BOOTINFO_UNTYPED_CAPS],
 }
 
-// impl Default for UntypedMemoryManager {
+// impl Default for UntypedManager {
 //     fn default() -> Self {
 //         UntypedMemoryManager{
 //             untyped: SlotRegion::default(),

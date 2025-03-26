@@ -1,11 +1,11 @@
-use sel4_us::runtime::protection_domain::thread::{ThreadId, ThreadIdManager};
+use sel4_us::runtime::protection_domain::thread::{Id, ThreadIdManager};
 
 #[test]
 fn alloc_id_empty() {
     let mut thread_id_manager = ThreadIdManager::default();
     let thread_id = thread_id_manager.alloc_id().unwrap();
 
-    assert_eq!(0 as ThreadId, thread_id);
+    assert_eq!(0 as Id, thread_id);
 }
 
 #[test]
@@ -15,7 +15,7 @@ fn alloc_id_full() {
     for i in 0..ThreadIdManager::MAX_NUM_THREADS {
         let thread_id = thread_id_manager.alloc_id().unwrap();
 
-        assert_eq!(i as ThreadId, thread_id);
+        assert_eq!(i as Id, thread_id);
     }
 
     assert_eq!(thread_id_manager.alloc_id(), Err(()));
@@ -27,13 +27,13 @@ fn free_non_empty_empty() {
     {
         let thread_id = thread_id_manager.alloc_id().unwrap();
 
-        assert_eq!(0 as ThreadId, thread_id);
+        assert_eq!(0 as Id, thread_id);
     }
     {
         thread_id_manager.free_id(0);
         let thread_id = thread_id_manager.alloc_id().unwrap();
 
-        assert_eq!(0 as ThreadId, thread_id);
+        assert_eq!(0 as Id, thread_id);
     }
 }
 
@@ -43,16 +43,16 @@ fn free_non_sequential() {
     {
         let thread_id_0 = thread_id_manager.alloc_id().unwrap();
 
-        assert_eq!(0 as ThreadId, thread_id_0);
+        assert_eq!(0 as Id, thread_id_0);
 
         let thread_id_1 = thread_id_manager.alloc_id().unwrap();
 
-        assert_eq!(1 as ThreadId, thread_id_1);
+        assert_eq!(1 as Id, thread_id_1);
     }
     {
         thread_id_manager.free_id(0);
         let thread_id = thread_id_manager.alloc_id().unwrap();
 
-        assert_eq!(0 as ThreadId, thread_id);
+        assert_eq!(0 as Id, thread_id);
     }
 }
